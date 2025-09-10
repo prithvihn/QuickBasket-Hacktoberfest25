@@ -79,7 +79,7 @@ function updateCartDisplay() {
     cartTotal.textContent = `₹${total}`;
     qrAmount.textContent = `₹${total}`;
     
-    // Update QR code with new total
+    // Update QR code with new total - demo only
     document.querySelector('.qr-code img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QuickBasket-Payment-Total-₹${total}`;
 }
 
