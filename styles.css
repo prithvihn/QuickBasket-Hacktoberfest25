@@ -46,43 +46,20 @@ body,
 
 /* Recently Viewed Products */
 .recently-viewed {
+  margin: 2rem 0;
+}
+
+#recentlyViewedProducts {
+  margin-top: 1rem;
+}
+
+.recently-viewed .no-products {
+  text-align: center;
+  color: var(--gray);
+  padding: 2rem;
   background: white;
   border-radius: var(--radius);
-  padding: 20px;
-  margin: 20px 0;
   box-shadow: var(--shadow);
-}
-
-.recently-viewed-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.recent-product {
-  padding: 10px 15px;
-  background: var(--light);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.recent-product:hover {
-  background: #e9ecef;
-  transform: translateX(5px);
-}
-
-.recent-product-name {
-  color: var(--dark);
-  font-size: 0.95rem;
-}
-
-.no-recent {
-  color: var(--gray);
-  text-align: center;
-  font-size: 0.9rem;
-  padding: 10px;
 }
 
 /* Header Styles */
