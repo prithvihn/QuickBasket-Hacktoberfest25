@@ -3,6 +3,21 @@ let cart = [];
 let cartCount = 0;
 let productsData = null;
 
+// Initialize cart from localStorage on startup
+function initializeCart() {
+    const savedCart = window.cartStorage ? window.cartStorage.loadCart() : null;
+
+    if (savedCart && Array.isArray(savedCart) && savedCart.length > 0) {
+        cart = savedCart;
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = cartCount;
+        console.log(`Loaded ${cart.length} items from localStorage`);
+    } else {
+        cart = [];
+        cartCount = 0;
+    }
+}
+
 // Load products from JSON
 async function loadProducts() {
     try {
@@ -60,8 +75,11 @@ function createProductCard(product) {
     return productCard;
 }
 
-// Initialize products when page loads
-document.addEventListener('DOMContentLoaded', loadProducts);
+// Initialize products and cart when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    initializeCart();
+});
 
 function openCart() {
     document.getElementById('cartModal').style.display = 'flex';
@@ -92,7 +110,12 @@ function addToCart(name, price, image) {
     
     cartCount += 1;
     document.querySelector('.cart-count').textContent = cartCount;
-    
+
+    // Save to localStorage with debouncing
+    if (window.cartStorage && window.cartStorage.debouncedSave) {
+        window.cartStorage.debouncedSave(cart);
+    }
+
     // Show toast notification
     showToast(`${name} added to cart!`);
 }
@@ -158,7 +181,12 @@ function changeQuantity(name, change) {
         // Update cart count
         cartCount = cart.reduce((total, item) => total + item.quantity, 0);
         document.querySelector('.cart-count').textContent = cartCount;
-        
+
+        // Save to localStorage with debouncing
+        if (window.cartStorage && window.cartStorage.debouncedSave) {
+            window.cartStorage.debouncedSave(cart);
+        }
+
         // Update display
         updateCartDisplay();
     }
@@ -201,6 +229,11 @@ function placeOrder() {
         cart = [];
         cartCount = 0;
         document.querySelector('.cart-count').textContent = cartCount;
+
+        // Clear cart from localStorage
+        if (window.cartStorage && window.cartStorage.clearCart) {
+            window.cartStorage.clearCart();
+        }
     }, 5000);
 }
 
