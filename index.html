@@ -349,8 +349,19 @@
                 <div class="coupon-section">
                     <h4>Apply Coupon</h4>
                     <div class="coupon-input">
-                        <input type="text" placeholder="Enter coupon code">
-                        <button>Apply</button>
+                        <input type="text" placeholder="Enter coupon code" maxlength="20">
+                        <button onclick="applyCoupon()">Apply</button>
+                    </div>
+                    
+                    <div id="couponMessage" class="coupon-message"></div>
+                    
+                    <div id="appliedCoupon" class="applied-coupon"></div>
+                    
+                    <div class="available-coupons">
+                        <h5>Available Coupons:</h5>
+                        <div id="availableCoupons">
+                            <!-- Available coupons will be displayed here -->
+                        </div>
                     </div>
                 </div>
                 
