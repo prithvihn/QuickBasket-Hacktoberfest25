@@ -38,6 +38,21 @@ const coupons = {
 };
 let productsData = null;
 
+// Initialize cart from localStorage on startup
+function initializeCart() {
+    const savedCart = window.cartStorage ? window.cartStorage.loadCart() : null;
+
+    if (savedCart && Array.isArray(savedCart) && savedCart.length > 0) {
+        cart = savedCart;
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = cartCount;
+        console.log(`Loaded ${cart.length} items from localStorage`);
+    } else {
+        cart = [];
+        cartCount = 0;
+    }
+}
+
 // Load products from JSON
 async function loadProducts() {
   try {
@@ -95,9 +110,11 @@ function createProductCard(product) {
 
   return productCard;
 }
-
-// Initialize products when page loads
-document.addEventListener("DOMContentLoaded", loadProducts);
+// Initialize products and cart when page loads
+document.addEventListener("DOMContentLoaded", function () {
+  loadProducts();
+  initializeCart();
+});
 
 function openCart() {
   document.getElementById("cartModal").style.display = "flex";
@@ -128,6 +145,11 @@ function addToCart(name, price, image) {
 
   cartCount += 1;
   document.querySelector(".cart-count").textContent = cartCount;
+
+  // Save to localStorage with debouncing
+  if (window.cartStorage && window.cartStorage.debouncedSave) {
+    window.cartStorage.debouncedSave(cart);
+  }
 
   // Show toast notification
   showSuccessToast(`${name} added to cart!`);
@@ -168,40 +190,42 @@ function updateCartDisplay() {
                     <button class="quantity-btn" onclick="changeQuantity('${item.name}', 1)">+</button>
                 </div>
             `;
-            
-            cartItems.appendChild(cartItem);
-        });
+
+      cartItems.appendChild(cartItem);
+    });
+  }
+
+  // Calculate discount and final total
+  let discount = 0;
+  let finalTotal = total;
+
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "flat") {
+      discount = appliedCoupon.value;
+    } else if (appliedCoupon.type === "percentage") {
+      discount = Math.round((total * appliedCoupon.value) / 100);
     }
-    
-    // Calculate discount and final total
-    let discount = 0;
-    let finalTotal = total;
-    
-    if (appliedCoupon) {
-        if (appliedCoupon.type === 'flat') {
-            discount = appliedCoupon.value;
-        } else if (appliedCoupon.type === 'percentage') {
-            discount = Math.round((total * appliedCoupon.value) / 100);
-        }
-        finalTotal = Math.max(0, total - discount);
-    }
-    
-    // Update total display
-    if (appliedCoupon && discount > 0) {
-        cartTotal.innerHTML = `
+    finalTotal = Math.max(0, total - discount);
+  }
+
+  // Update total display
+  if (appliedCoupon && discount > 0) {
+    cartTotal.innerHTML = `
             <div>
                 <div style="text-decoration: line-through; color: #999; font-size: 0.9rem;">₹${total}</div>
                 <div style="color: var(--success);">₹${finalTotal} <span style="font-size: 0.8rem;">(₹${discount} off)</span></div>
             </div>
         `;
-    } else {
-        cartTotal.textContent = `₹${finalTotal}`;
-    }
-    
-    qrAmount.textContent = `₹${finalTotal}`;
-    
-    // Update QR code with new total - demo only
-    document.querySelector('.qr-code img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QuickBasket-Payment-Total-₹${finalTotal}`;
+  } else {
+    cartTotal.textContent = `₹${finalTotal}`;
+  }
+
+  qrAmount.textContent = `₹${finalTotal}`;
+
+  // Update QR code with new total - demo only
+  document.querySelector(
+    ".qr-code img"
+  ).src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QuickBasket-Payment-Total-₹${finalTotal}`;
 }
 
 function changeQuantity(name, change) {
@@ -218,6 +242,11 @@ function changeQuantity(name, change) {
     // Update cart count
     cartCount = cart.reduce((total, item) => total + item.quantity, 0);
     document.querySelector(".cart-count").textContent = cartCount;
+
+    // Save to localStorage with debouncing
+    if (window.cartStorage && window.cartStorage.debouncedSave) {
+      window.cartStorage.debouncedSave(cart);
+    }
 
     // Update display
     updateCartDisplay();
@@ -497,6 +526,11 @@ function placeOrder() {
         cartCount = 0;
         appliedCoupon = null;
         document.querySelector('.cart-count').textContent = cartCount;
+
+        // Clear cart from localStorage
+        if (window.cartStorage && window.cartStorage.clearCart) {
+            window.cartStorage.clearCart();
+        }
     }, 5000);
 }
 
