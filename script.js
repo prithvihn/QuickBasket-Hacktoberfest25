@@ -1,6 +1,67 @@
 // Cart functionality
 let cart = [];
 let cartCount = 0;
+let productsData = null;
+
+// Load products from JSON
+async function loadProducts() {
+    try {
+        const response = await fetch('../products.json');
+        productsData = await response.json();
+        renderProducts();
+    } catch (error) {
+        console.error('Error loading products:', error);
+    }
+}
+
+// Render products dynamically
+function renderProducts() {
+    if (!productsData) return;
+    
+    renderProductSection('popularProducts', productsData.popularProducts);
+    renderProductSection('dealsProducts', productsData.deals);
+}
+
+// Render a specific product section
+function renderProductSection(containerId, products) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    products.forEach(product => {
+        const productCard = createProductCard(product);
+        container.appendChild(productCard);
+    });
+}
+
+// Create product card element
+function createProductCard(product) {
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+    
+    productCard.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <div class="product-info">
+            <h3 class="product-title">${product.name}</h3>
+            <div class="product-price">₹${product.price} <span>(₹${product.discount} off)</span></div>
+            <p>${product.description}</p>
+            <div class="product-actions">
+                <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">
+                    <i class="fas fa-plus"></i> Add to Cart
+                </button>
+                <button class="wishlist">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return productCard;
+}
+
+// Initialize products when page loads
+document.addEventListener('DOMContentLoaded', loadProducts);
 
 function openCart() {
     document.getElementById('cartModal').style.display = 'flex';
@@ -196,14 +257,16 @@ window.onclick = function(event) {
 };
 
 // Form submission handlers
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showToast('Login successful!');
-    document.getElementById('userModal').style.display = 'none';
-});
-
-document.getElementById('signupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showToast('Account created successfully!');
-    document.getElementById('userModal').style.display = 'none';
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showToast('Login successful!');
+        document.getElementById('userModal').style.display = 'none';
+    });
+    
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showToast('Account created successfully!');
+        document.getElementById('userModal').style.display = 'none';
+    });
 });
