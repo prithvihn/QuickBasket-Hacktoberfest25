@@ -38,12 +38,68 @@ const coupons = {
 };
 let productsData = null;
 
+// Recently viewed products functionality
+const RECENTLY_VIEWED_KEY = 'quickBasket_recentlyViewed';
+const MAX_RECENT_ITEMS = 5;
+
+// Function to get recently viewed products from localStorage
+function getRecentlyViewed() {
+    const recentlyViewed = localStorage.getItem(RECENTLY_VIEWED_KEY);
+    return recentlyViewed ? JSON.parse(recentlyViewed) : [];
+}
+
+// Function to add a product to recently viewed
+function addToRecentlyViewed(product) {
+    let recentlyViewed = getRecentlyViewed();
+    
+    // Remove the product if it already exists (to move it to the front)
+    recentlyViewed = recentlyViewed.filter(item => item.name !== product.name);
+    
+    // Add the new product to the beginning
+    recentlyViewed.unshift(product);
+    
+    // Keep only the last MAX_RECENT_ITEMS items
+    if (recentlyViewed.length > MAX_RECENT_ITEMS) {
+        recentlyViewed = recentlyViewed.slice(0, MAX_RECENT_ITEMS);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(recentlyViewed));
+    
+    // Update the display
+    renderRecentlyViewed();
+}
+
+// Function to render recently viewed products
+function renderRecentlyViewed() {
+    const recentlyViewed = getRecentlyViewed();
+    const container = document.querySelector('.recently-viewed-list');
+    
+    if (!container) return;
+    
+    if (recentlyViewed.length === 0) {
+        container.innerHTML = '<p class="no-recent">No recently viewed products</p>';
+        return;
+    }
+    
+    const productsList = recentlyViewed
+        .map(product => `
+            <div class="recent-product" onclick="showProductDetails('${product.name}')">
+                <span class="recent-product-name">${product.name}</span>
+            </div>
+        `)
+        .join('');
+    
+    container.innerHTML = productsList;
+}
+
 // Load products from JSON
 async function loadProducts() {
   try {
     const response = await fetch("./products.json");
     productsData = await response.json();
     renderProducts();
+    renderRecentlyViewed(); // Initialize recently viewed section
   } catch (error) {
     console.error("Error loading products:", error);
     showErrorToast("Failed to load products. Please refresh the page.");
@@ -77,18 +133,20 @@ function createProductCard(product) {
   productCard.className = "product-card";
 
   productCard.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" class="product-image">
-        <div class="product-info">
-            <h3 class="product-title">${product.name}</h3>
-            <div class="product-price">₹${product.price} <span>(₹${product.discount} off)</span></div>
-            <p>${product.description}</p>
-            <div class="product-actions">
-                <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">
-                    <i class="fas fa-plus"></i> Add to Cart
-                </button>
-                <button class="wishlist">
-                    <i class="far fa-heart"></i>
-                </button>
+        <div class="product-content" onclick="addToRecentlyViewed(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">${product.name}</h3>
+                <div class="product-price">₹${product.price} <span>(₹${product.discount} off)</span></div>
+                <p>${product.description}</p>
+                <div class="product-actions">
+                    <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('${product.name}', ${product.price}, '${product.image}')">
+                        <i class="fas fa-plus"></i> Add to Cart
+                    </button>
+                    <button class="wishlist" onclick="event.stopPropagation()">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
             </div>
         </div>
     `;
