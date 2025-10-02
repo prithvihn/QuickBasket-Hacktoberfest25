@@ -59,6 +59,7 @@ async function loadProducts() {
     const response = await fetch("./products.json");
     productsData = await response.json();
     renderProducts();
+    renderRecentlyViewed(); // Initialize recently viewed section
   } catch (error) {
     console.error("Error loading products:", error);
     showErrorToast("Failed to load products. Please refresh the page.");
