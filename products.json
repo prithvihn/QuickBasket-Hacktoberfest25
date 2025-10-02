@@ -81,6 +81,106 @@
       "description": "All-purpose cleaners and supplies",
       "image": "https://images.unsplash.com/photo-1740325927180-6e57faaae5db?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
       "category": "home-care"
+    },
+    {
+      "id": 9,
+      "name": "Artisanal Cheese Platter",
+      "price": 450,
+      "originalPrice": 500,
+      "discount": 50,
+      "description": "A selection of fine cheeses for any occasion.",
+      "image": "https://images.unsplash.com/photo-1589881210718-42da05899fe4?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "dairy"
+    },
+    {
+      "id": 10,
+      "name": "Whole Wheat Bread",
+      "price": 89,
+      "originalPrice": 99,
+      "discount": 10,
+      "description": "Healthy and delicious whole wheat bread, freshly baked.",
+      "image": "https://images.unsplash.com/photo-1709577612752-17464d42512b?q=80&w=1491&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "bakery"
+    },
+    {
+      "id": 11,
+      "name": "Fresh Orange Juice",
+      "price": 149,
+      "originalPrice": 169,
+      "discount": 20,
+      "description": "1L carton of freshly squeezed orange juice.",
+      "image": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "beverages"
+    },
+    {
+      "id": 12,
+      "name": "Mixed Nuts & Seeds",
+      "price": 249,
+      "originalPrice": 279,
+      "discount": 30,
+      "description": "A healthy mix of almonds, walnuts, and sunflower seeds.",
+      "image": "https://images.unsplash.com/photo-1542990253-a781e04c0082?q=80&w=1094&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "snacks"
+    },
+    {
+      "id": 13,
+      "name": "Gourmet Coffee Beans",
+      "price": 599,
+      "originalPrice": 649,
+      "discount": 50,
+      "description": "Rich and aromatic gourmet coffee beans, 500g pack.",
+      "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1061&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "beverages"
+    },
+    {
+      "id": 14,
+      "name": "Laundry Detergent",
+      "price": 399,
+      "originalPrice": 449,
+      "discount": 50,
+      "description": "High-efficiency laundry detergent, 2L bottle.",
+      "image": "https://images.unsplash.com/photo-1624372635310-01d078c05dd9?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "home-care"
+    },
+    {
+      "id": 15,
+      "name": "Exotic Fruit Platter",
+      "price": 499,
+      "originalPrice": 549,
+      "discount": 50,
+      "description": "A selection of exotic fruits like dragon fruit, kiwi, and passion fruit.",
+      "image": "https://images.unsplash.com/photo-1646340925478-844ca7a38e9c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "fruits"
+    },
+    {
+      "id": 16,
+      "name": "Chocolate Chip Cookies",
+      "price": 149,
+      "originalPrice": 169,
+      "discount": 20,
+      "description": "Pack of 12 freshly baked chocolate chip cookies.",
+      "image": "https://images.unsplash.com/photo-1657418830273-40c19cfff4d7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "bakery"
+    },
+    {
+      "id": 17,
+      "name": "Greek Yogurt",
+      "price": 99,
+      "originalPrice": 119,
+      "discount": 20,
+      "description": "Creamy and healthy Greek yogurt, 500g tub.",
+      "image": "https://images.unsplash.com/photo-1571212515416-fef01fc43637?q=80&w=682&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "dairy"
+    },
+    {
+      "id": 18,
+      "name": "Organic Baby Spinach",
+      "price": 79,
+      "originalPrice": 89,
+      "discount": 10,
+      "description": "Fresh and tender organic baby spinach, 200g pack.",
+      "image": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "vegetables"
     }
   ]
 }
