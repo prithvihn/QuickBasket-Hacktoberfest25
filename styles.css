@@ -269,6 +269,8 @@ nav {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: var(--transition);
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
@@ -285,6 +287,10 @@ nav {
 
 .product-info {
   padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .product-title {
