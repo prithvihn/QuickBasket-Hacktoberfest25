@@ -38,72 +38,19 @@ const coupons = {
 };
 let productsData = null;
 
-// Recently viewed products functionality
-const RECENTLY_VIEWED_KEY = 'quickBasket_recentlyViewed';
-const MAX_RECENT_ITEMS = 5;
+// Initialize cart from localStorage on startup
+function initializeCart() {
+    const savedCart = window.cartStorage ? window.cartStorage.loadCart() : null;
 
-// Function to get recently viewed products from localStorage
-function getRecentlyViewed() {
-    try {
-        const recentlyViewed = localStorage.getItem(RECENTLY_VIEWED_KEY);
-        return recentlyViewed ? JSON.parse(recentlyViewed) : [];
-    } catch (error) {
-        console.error('Error reading recently viewed products:', error);
-        return [];
+    if (savedCart && Array.isArray(savedCart) && savedCart.length > 0) {
+        cart = savedCart;
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = cartCount;
+        console.log(`Loaded ${cart.length} items from localStorage`);
+    } else {
+        cart = [];
+        cartCount = 0;
     }
-}
-
-// Function to add a product to recently viewed
-function addToRecentlyViewed(product) {
-    try {
-        let recentlyViewed = getRecentlyViewed();
-        
-        // Remove the product if it already exists (to move it to the front)
-        recentlyViewed = recentlyViewed.filter(item => item.name !== product.name);
-        
-        // Add the new product to the beginning
-        recentlyViewed.unshift({
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            description: product.description,
-            discount: product.discount
-        });
-        
-        // Keep only the last MAX_RECENT_ITEMS items
-        if (recentlyViewed.length > MAX_RECENT_ITEMS) {
-            recentlyViewed = recentlyViewed.slice(0, MAX_RECENT_ITEMS);
-        }
-        
-        // Save to localStorage
-        localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(recentlyViewed));
-        
-        // Update the display
-        renderRecentlyViewed();
-    } catch (error) {
-        console.error('Error adding product to recently viewed:', error);
-    }
-}
-
-// Function to render recently viewed products
-function renderRecentlyViewed() {
-    const container = document.getElementById('recentlyViewedProducts');
-    if (!container) return;
-    
-    const recentlyViewed = getRecentlyViewed();
-    
-    if (recentlyViewed.length === 0) {
-        container.innerHTML = '<div class="no-products">No recently viewed products</div>';
-        return;
-    }
-    
-    container.innerHTML = '';
-    
-    // Create product cards for each recently viewed item
-    recentlyViewed.forEach(product => {
-        const productCard = createProductCard(product);
-        container.appendChild(productCard);
-    });
 }
 
 // Load products from JSON
@@ -161,17 +108,11 @@ function createProductCard(product) {
             </div>
         </div>
     `;
-    
-  // Add click event listener to add to recently viewed
-  productCard.addEventListener('click', () => {
-    addToRecentlyViewed(product);
-  });
-
-  return productCard;
-}
-
-// Initialize products when page loads
-document.addEventListener("DOMContentLoaded", loadProducts);
+// Initialize products and cart when page loads
+document.addEventListener("DOMContentLoaded", function () {
+  loadProducts();
+  initializeCart();
+});
 
 function openCart() {
   document.getElementById("cartModal").style.display = "flex";
@@ -202,6 +143,11 @@ function addToCart(name, price, image) {
 
   cartCount += 1;
   document.querySelector(".cart-count").textContent = cartCount;
+
+  // Save to localStorage with debouncing
+  if (window.cartStorage && window.cartStorage.debouncedSave) {
+    window.cartStorage.debouncedSave(cart);
+  }
 
   // Show toast notification
   showSuccessToast(`${name} added to cart!`);
@@ -242,40 +188,42 @@ function updateCartDisplay() {
                     <button class="quantity-btn" onclick="changeQuantity('${item.name}', 1)">+</button>
                 </div>
             `;
-            
-            cartItems.appendChild(cartItem);
-        });
+
+      cartItems.appendChild(cartItem);
+    });
+  }
+
+  // Calculate discount and final total
+  let discount = 0;
+  let finalTotal = total;
+
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "flat") {
+      discount = appliedCoupon.value;
+    } else if (appliedCoupon.type === "percentage") {
+      discount = Math.round((total * appliedCoupon.value) / 100);
     }
-    
-    // Calculate discount and final total
-    let discount = 0;
-    let finalTotal = total;
-    
-    if (appliedCoupon) {
-        if (appliedCoupon.type === 'flat') {
-            discount = appliedCoupon.value;
-        } else if (appliedCoupon.type === 'percentage') {
-            discount = Math.round((total * appliedCoupon.value) / 100);
-        }
-        finalTotal = Math.max(0, total - discount);
-    }
-    
-    // Update total display
-    if (appliedCoupon && discount > 0) {
-        cartTotal.innerHTML = `
+    finalTotal = Math.max(0, total - discount);
+  }
+
+  // Update total display
+  if (appliedCoupon && discount > 0) {
+    cartTotal.innerHTML = `
             <div>
                 <div style="text-decoration: line-through; color: #999; font-size: 0.9rem;">₹${total}</div>
                 <div style="color: var(--success);">₹${finalTotal} <span style="font-size: 0.8rem;">(₹${discount} off)</span></div>
             </div>
         `;
-    } else {
-        cartTotal.textContent = `₹${finalTotal}`;
-    }
-    
-    qrAmount.textContent = `₹${finalTotal}`;
-    
-    // Update QR code with new total - demo only
-    document.querySelector('.qr-code img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QuickBasket-Payment-Total-₹${finalTotal}`;
+  } else {
+    cartTotal.textContent = `₹${finalTotal}`;
+  }
+
+  qrAmount.textContent = `₹${finalTotal}`;
+
+  // Update QR code with new total - demo only
+  document.querySelector(
+    ".qr-code img"
+  ).src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QuickBasket-Payment-Total-₹${finalTotal}`;
 }
 
 function changeQuantity(name, change) {
@@ -293,6 +241,10 @@ function changeQuantity(name, change) {
     cartCount = cart.reduce((total, item) => total + item.quantity, 0);
     document.querySelector(".cart-count").textContent = cartCount;
 
+    // Save to localStorage with debouncing
+    if (window.cartStorage && window.cartStorage.debouncedSave) {
+      window.cartStorage.debouncedSave(cart);
+    }
     // Update display
     updateCartDisplay();
   }
@@ -543,13 +495,13 @@ function switchTab(tabName) {
 }
 
 function selectPayment(element) {
-    // Remove selected class from all options
-    document.querySelectorAll('.payment-option').forEach(opt => {
-        opt.classList.remove('selected');
-    });
-    
-    // Add selected class to clicked option
-    element.classList.add('selected');
+  // Remove selected class from all options
+  document.querySelectorAll(".payment-option").forEach((opt) => {
+    opt.classList.remove("selected");
+  });
+
+  // Add selected class to clicked option
+  element.classList.add("selected");
 }
 
 function placeOrder() {
@@ -571,6 +523,11 @@ function placeOrder() {
         cartCount = 0;
         appliedCoupon = null;
         document.querySelector('.cart-count').textContent = cartCount;
+
+        // Clear cart from localStorage
+        if (window.cartStorage && window.cartStorage.clearCart) {
+            window.cartStorage.clearCart();
+        }
     }, 5000);
 }
 
@@ -582,7 +539,6 @@ window.onclick = function (event) {
   if (event.target === cartModal) {
     closeCart();
   }
-
   if (event.target === userModal) {
     userModal.style.display = "none";
   }
@@ -603,4 +559,48 @@ document.addEventListener("DOMContentLoaded", function () {
       showSuccessToast("Account created successfully!");
       document.getElementById("userModal").style.display = "none";
     });
+
+  // Initialize theme on page load
+  initializeTheme();
 });
+
+// Dark Mode Toggle Functionality
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+  setTheme(newTheme);
+}
+
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+
+  // Add a subtle feedback animation to the navbar toggle
+  const toggleButton = document.querySelector(".theme-toggle-nav");
+  if (toggleButton) {
+    toggleButton.style.transform = "scale(0.9)";
+    setTimeout(() => {
+      toggleButton.style.transform = "scale(1)";
+    }, 150);
+  }
+}
+
+function initializeTheme() {
+  // Check for saved theme preference or default to light mode
+  const savedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const theme = savedTheme || (prefersDark ? "dark" : "light");
+  setTheme(theme);
+}
+
+// Listen for system theme changes
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", (e) => {
+    // Only auto-switch if user hasn't manually set a preference
+    if (!localStorage.getItem("theme")) {
+      setTheme(e.matches ? "dark" : "light");
+    }
+  });
