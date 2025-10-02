@@ -1,0 +1,86 @@
+{
+  "popularProducts": [
+    {
+      "id": 1,
+      "name": "Fresh Vegetable Basket",
+      "price": 249,
+      "originalPrice": 279,
+      "discount": 30,
+      "description": "Freshly picked vegetables from local farms",
+      "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "vegetables"
+    },
+    {
+      "id": 2,
+      "name": "Organic Fruits Pack",
+      "price": 399,
+      "originalPrice": 449,
+      "discount": 50,
+      "description": "Seasonal organic fruits, rich in nutrients",
+      "image": "https://images.unsplash.com/photo-1623645418090-df94e62d07d1?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "fruits"
+    },
+    {
+      "id": 3,
+      "name": "Dairy Essentials",
+      "price": 179,
+      "originalPrice": 199,
+      "discount": 20,
+      "description": "Fresh milk, cheese, butter and yogurt",
+      "image": "https://images.unsplash.com/photo-1506617420156-8e4536971650?q=80&w=1423&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "dairy"
+    },
+    {
+      "id": 4,
+      "name": "Fresh Bakery Items",
+      "price": 129,
+      "originalPrice": 144,
+      "discount": 15,
+      "description": "Freshly baked bread, cakes and pastries",
+      "image": "https://images.unsplash.com/photo-1546904442-d07fd05f2f9a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "bakery"
+    }
+  ],
+  "deals": [
+    {
+      "id": 5,
+      "name": "Soft Drinks - 6 Pack",
+      "price": 299,
+      "originalPrice": 359,
+      "discount": 60,
+      "description": "Assorted soft drinks 6 pack",
+      "image": "https://images.unsplash.com/photo-1646009761326-dc939bb7c226?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "beverages"
+    },
+    {
+      "id": 6,
+      "name": "Snacks Combo Pack",
+      "price": 199,
+      "originalPrice": 239,
+      "discount": 40,
+      "description": "Assorted chips, nuts and cookies",
+      "image": "https://images.unsplash.com/photo-1752711807643-79af3096f1b9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "snacks"
+    },
+    {
+      "id": 7,
+      "name": "Premium Ice Cream",
+      "price": 349,
+      "originalPrice": 399,
+      "discount": 50,
+      "description": "1L tub of premium ice cream",
+      "image": "https://images.unsplash.com/photo-1709620050386-ed31904f8ff7?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "snacks"
+    },
+    {
+      "id": 8,
+      "name": "Home Cleaning Kit",
+      "price": 499,
+      "originalPrice": 599,
+      "discount": 100,
+      "description": "All-purpose cleaners and supplies",
+      "image": "https://images.unsplash.com/photo-1740325927180-6e57faaae5db?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
+      "category": "home-care"
+    }
+  ]
+}
