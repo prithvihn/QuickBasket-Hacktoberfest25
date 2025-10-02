@@ -1,18 +1,23 @@
 # Contributing to QuickBasket
 
-Thank you for your interest in contributing to **QuickBasket**!  
-This project is **beginner-friendly** and part of **Hacktoberfest**, so contributions are always welcome.
+Thank you for your interest in contributing to **QuickBasket**.
+This project is **beginner-friendly** and part of **Hacktoberfest**, created to help new contributors start their open-source journey.
+
+We encourage you to take open source seriously. Contributions here are not about **“free swags”**, but about **learning, building real-world skills, and enhancing your portfolio** while working on meaningful projects.
 
 ## 📌 How to Contribute
 
 ### 1. Fork the Repository
+
 Click on the **Fork** button in the top-right corner of this repo to create your own copy.
 
 ### 2. Clone Your Fork
+
 Clone your forked repo to your local machine:
+
 ```bash
-git clone https://github.com/cu-sanjay/QuickBasket.git
-````
+git clone https://github.com/cu-sanjay/QuickBasket-Hacktoberfest.git
+```
 
 ### 3. Create a New Branch
 
@@ -45,16 +50,19 @@ git push origin feature-branch
 
 ### 7. Open a Pull Request (PR)
 
-* Go to the original repo on GitHub.
-* Click **New Pull Request**.
-* Select your branch and submit. 🎉
+* Go to the original repo on GitHub
+* Click **New Pull Request**
+* Select your branch and submit 🎉
 
 ## ✅ Contribution Rules
 
-* Keep PRs **small and focused** (1 feature or fix per PR).
+* Keep PRs **small and focused** (one feature or fix per PR).
 * Follow proper **HTML, CSS, and JavaScript formatting**.
 * Do not remove or break existing functionality.
-* Be respectful and helpful to other contributors.
+* Do not submit spam or invalid pull requests.
+* No cosmetic changes like unnecessary spaces, punctuation edits, or unneeded rewrites.
+* Only make changes that bring **real improvements or fixes**.
+* Be respectful and supportive of fellow contributors.
 
 ## 💡 Good First Issues
 
@@ -62,6 +70,7 @@ Check out the **[Issues](../../issues)** tab for tasks labeled:
 
 * `good first issue`
 * `hacktoberfest`
+* `hacktoberfest-2025`
 
 These are beginner-friendly and perfect to start with.
 
@@ -69,8 +78,8 @@ These are beginner-friendly and perfect to start with.
 
 * Use **semantic HTML** (`<header>`, `<footer>`, `<section>`).
 * Use **CSS classes** instead of inline styles.
-* Keep JavaScript functions **modular** (avoid repeating code).
-* Write **clear comments** for any complex code.
+* Keep JavaScript functions **modular** (avoid repetition).
+* Write **clear comments** for any complex logic.
 
 Example:
 
@@ -83,7 +92,12 @@ function calculateTotal(cart) {
 
 ## 🎯 Hacktoberfest Note
 
-This project welcomes Hacktoberfest contributions.
-Your PRs must be **meaningful** (not just fixing typos or spacing).
+Hacktoberfest is about **learning and contributing meaningfully**. Please:
 
-> Happy Coding 💻 and welcome to the **QuickBasket Community**! 🚀
+* Submit only **valid pull requests** with actual improvements.
+* Treat this project as a chance to **learn open source practices**.
+* Use this as an opportunity to **collaborate, learn, and grow** as a developer.
+
+By contributing, you not only help improve QuickBasket but also **gain experience, enhance your portfolio, and become part of the open-source community**.
+
+> Happy Coding 💻 and welcome to the **QuickBasket Community** 🚀
